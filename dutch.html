@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dutch Level 2 — Exam Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f0e4;
+  --paper-dark: #ebe4d0;
+  --surface: #ffffff;
+  --ink: #1a1f2e;
+  --ink-muted: #5a5a5a;
+  --accent: #c8501a;
+  --accent-dark: #a03f13;
+  --navy: #1a3a5c;
+  --border: #d9d0b8;
+  --success: #2d7a4d;
+  --success-bg: #e3f1e8;
+  --error: #b83a2c;
+  --error-bg: #fae3df;
+  --shadow: 0 1px 3px rgba(26,31,46,0.06), 0 8px 24px rgba(26,31,46,0.06);
+  --shadow-lg: 0 4px 8px rgba(26,31,46,0.08), 0 16px 48px rgba(26,31,46,0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Figtree', -apple-system, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(at 10% 0%, rgba(200,80,26,0.04) 0%, transparent 50%),
+    radial-gradient(at 90% 100%, rgba(26,58,92,0.04) 0%, transparent 50%);
+}
+h1, h2, h3, h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 48px 0 40px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 48px;
+  position: relative;
+}
+header::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  background: var(--accent);
+}
+header h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+header h1 .accent { color: var(--accent); font-style: normal; }
+header p {
+  color: var(--ink-muted);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* Lesson grid */
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.lesson-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  width: 100%;
+}
+.lesson-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent);
+}
+.lesson-number {
+  font-family: 'Fraunces', serif;
+  font-size: 0.8rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.lesson-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+.lesson-sub {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+.best-score {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.best-score .val {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  color: var(--navy);
+  font-size: 1rem;
+}
+.best-score .perfect { color: var(--success); }
+
+/* Lesson view */
+.lesson-view { display: none; }
+.lesson-view.active { display: block; }
+.home-view { display: block; }
+.home-view.hidden { display: none; }
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+.back-btn:hover { color: var(--accent-dark); }
+
+.lesson-header {
+  margin-bottom: 32px;
+}
+.lesson-header .lesson-number { font-size: 0.85rem; }
+.lesson-header h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.lesson-header .sub {
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+  gap: 4px;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 14px 20px;
+  cursor: pointer;
+  color: var(--ink-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+}
+.tab-btn:hover { color: var(--ink); }
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadein 0.25s ease; }
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Explanation content */
+.explanation {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 40px clamp(20px, 4vw, 56px);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+.explanation h3 {
+  font-size: 1.35rem;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  color: var(--navy);
+  font-weight: 500;
+}
+.explanation h3:first-child { margin-top: 0; }
+.explanation h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-family: 'Figtree', sans-serif;
+  color: var(--ink);
+}
+.explanation p { margin-bottom: 12px; }
+.explanation ul { padding-left: 20px; margin-bottom: 12px; }
+.explanation li { margin-bottom: 6px; }
+.explanation em { font-style: italic; color: var(--navy); }
+.explanation strong { font-weight: 600; color: var(--ink); }
+.explanation code {
+  background: var(--paper-dark);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: 'Figtree', monospace;
+  font-size: 0.88em;
+  color: var(--accent-dark);
+  font-weight: 500;
+}
+.explanation table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 0.88rem;
+}
+.explanation th, .explanation td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+.explanation th {
+  background: var(--paper-dark);
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.explanation blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 4px 0 4px 16px;
+  margin: 12px 0;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+/* Quiz */
+.quiz {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 40px clamp(20px, 4vw, 56px);
+  min-height: 400px;
+}
+.quiz-progress {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+.progress-bar {
+  height: 3px;
+  background: var(--paper-dark);
+  border-radius: 2px;
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.3s ease;
+  width: 0%;
+}
+.question-num {
+  font-family: 'Fraunces', serif;
+  font-size: 0.8rem;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.question-text {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.35;
+  margin-bottom: 28px;
+  color: var(--ink);
+}
+.question-text em {
+  font-style: italic;
+  color: var(--navy);
+}
+.question-text .blank {
+  display: inline-block;
+  min-width: 60px;
+  border-bottom: 2px solid var(--accent);
+  margin: 0 2px;
+}
+
+/* MC options */
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 18px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  color: var(--ink);
+  font-weight: 500;
+}
+.option:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+.option:disabled { cursor: default; }
+.option.correct {
+  background: var(--success-bg);
+  border-color: var(--success);
+  color: var(--success);
+}
+.option.wrong {
+  background: var(--error-bg);
+  border-color: var(--error);
+  color: var(--error);
+}
+.option.correct::after {
+  content: "✓";
+  float: right;
+  font-weight: 700;
+}
+.option.wrong::after {
+  content: "✗";
+  float: right;
+  font-weight: 700;
+}
+
+/* Fill-in */
+.fill-input {
+  width: 100%;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 18px;
+  font-family: 'Fraunces', serif;
+  font-size: 1.05rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.fill-input:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+.fill-input.correct { border-color: var(--success); background: var(--success-bg); }
+.fill-input.wrong { border-color: var(--error); background: var(--error-bg); }
+
+/* Feedback */
+.feedback {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  display: none;
+}
+.feedback.show { display: block; animation: fadein 0.25s ease; }
+.feedback.correct {
+  background: var(--success-bg);
+  color: var(--success);
+  border-left: 3px solid var(--success);
+}
+.feedback.wrong {
+  background: var(--error-bg);
+  color: var(--error);
+  border-left: 3px solid var(--error);
+}
+.feedback strong { display: block; margin-bottom: 4px; font-family: 'Fraunces', serif; font-size: 1rem; }
+.feedback .correct-answer {
+  margin-top: 6px;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* Buttons */
+.btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.01em;
+}
+.btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+.btn:disabled { background: var(--border); cursor: not-allowed; transform: none; }
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { background: var(--paper-dark); border-color: var(--ink-muted); transform: none; }
+.actions {
+  margin-top: 28px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* Results */
+.results {
+  text-align: center;
+  padding: 40px 20px;
+}
+.results .score-ring {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 24px;
+  position: relative;
+}
+.score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.score-ring .ring-bg { fill: none; stroke: var(--paper-dark); stroke-width: 8; }
+.score-ring .ring-fill { fill: none; stroke: var(--accent); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+.score-ring .score-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+}
+.score-ring .score-num { font-size: 2.75rem; font-weight: 500; color: var(--ink); line-height: 1; }
+.score-ring .score-total { font-size: 0.85rem; color: var(--ink-muted); margin-top: 4px; }
+.results h3 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+.results p {
+  color: var(--ink-muted);
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.results .actions { justify-content: center; }
+
+footer {
+  text-align: center;
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.reset-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--ink-muted);
+  font-family: inherit;
+  font-size: 0.78rem;
+  padding: 7px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+.reset-btn:hover {
+  color: var(--error);
+  border-color: var(--error);
+  background: var(--error-bg);
+}
+
+@media (max-width: 640px) {
+  .container { padding: 20px 16px 60px; }
+  header { padding: 24px 0 28px; margin-bottom: 32px; }
+  .explanation, .quiz { padding: 28px 20px; }
+  .question-text { font-size: 1.15rem; }
+  .tab-btn { padding: 12px 14px; font-size: 0.88rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Nederlands <span class="accent">Level 2</span></h1>
+    <p>Exam preparation · 11 lessons · Explanations &amp; quizzes</p>
+  </header>
+
+  <!-- Home view -->
+  <div id="home" class="home-view">
+    <div class="lesson-grid" id="lesson-grid"></div>
+  </div>
+
+  <!-- Lesson view -->
+  <div id="lesson-view" class="lesson-view">
+    <button class="back-btn" onclick="showHome()">← All lessons</button>
+    <div class="lesson-header">
+      <div class="lesson-number" id="lv-number"></div>
+      <h2 id="lv-title"></h2>
+      <p class="sub" id="lv-sub"></p>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="explanation">Explanation</button>
+      <button class="tab-btn" data-tab="quiz">Quiz</button>
+    </div>
+    <div class="tab-content active" id="tab-explanation">
+      <div class="explanation" id="explanation-content"></div>
+    </div>
+    <div class="tab-content" id="tab-quiz">
+      <div class="quiz" id="quiz-container"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div>Persistent scores use your browser's local storage.</div>
+    <button class="reset-btn" id="reset-btn">Reset all progress</button>
+  </footer>
+</div>
+
+<script>
+// ============================================================
+// LESSON DATA
+// ============================================================
+const LESSONS = [
+  // ---------- LESSON 1 ----------
+  {
+    id: 1,
+    title: "Position, placement &amp; formality",
+    sub: "u vs je · positieverba · prepositions · pronouns",
+    explanation: `
+<h3>1. u vs je/jij</h3>
+<p><strong>u</strong> is formal — strangers, officials, elders, customers. It takes the same verb form as <em>hij</em>: <em>u heeft, u komt, u bent</em>.</p>
+<p><strong>je/jij</strong> is informal. <em>je</em> is the default; <em>jij</em> is stressed/emphatic.</p>
+<p>When unsure, use <strong>u</strong>. To switch to informal, say <em>"Zeg maar jij, hoor!"</em></p>
+
+<h3>2. Position verbs (where something IS)</h3>
+<table>
+<tr><th>Verb</th><th>Meaning</th><th>Used for</th></tr>
+<tr><td><strong>staan</strong></td><td>stand (vertical)</td><td>bottles, cups, lamps, people standing</td></tr>
+<tr><td><strong>liggen</strong></td><td>lie (horizontal)</td><td>books flat, people in bed</td></tr>
+<tr><td><strong>hangen</strong></td><td>hang</td><td>paintings, jackets, clocks</td></tr>
+<tr><td><strong>zitten</strong></td><td>sit / be inside</td><td>people sitting, things inside something</td></tr>
+</table>
+
+<h3>3. Placement verbs (how something GETS there)</h3>
+<table>
+<tr><th>Position verb</th><th>Placement verb</th><th>Example</th></tr>
+<tr><td>staan</td><td><strong>zetten</strong></td><td>Ik zet de fles op tafel.</td></tr>
+<tr><td>liggen</td><td><strong>leggen</strong></td><td>Ik leg het boek op tafel.</td></tr>
+<tr><td>hangen</td><td><strong>hangen</strong></td><td>Ik hang de jas aan de kapstok.</td></tr>
+<tr><td>zitten</td><td><strong>doen</strong></td><td>Ik doe de sleutels in mijn zak.</td></tr>
+</table>
+
+<h3>4. Prepositions</h3>
+<p><strong>op</strong> (on) · <strong>in</strong> · <strong>onder</strong> · <strong>boven</strong> · <strong>naast</strong> · <strong>achter</strong> · <strong>voor</strong> · <strong>tussen</strong> · <strong>bij</strong> · <strong>aan</strong> (attached to).</p>
+<p><strong>op vs aan:</strong> <em>op</em> = on a horizontal surface (<em>op de tafel</em>); <em>aan</em> = attached, often vertical (<em>aan de muur, aan de kapstok</em>).</p>
+
+<h3>5. Reference words (pronouns)</h3>
+<table>
+<tr><th></th><th>subject neutral</th><th>object</th></tr>
+<tr><td>man</td><td>hij</td><td>hem</td></tr>
+<tr><td>woman</td><td>ze/zij</td><td>haar</td></tr>
+<tr><td>de-word (thing)</td><td><strong>hij</strong></td><td><strong>hem</strong></td></tr>
+<tr><td>het-word (thing)</td><td>het</td><td>het</td></tr>
+<tr><td>plural</td><td>ze</td><td>ze</td></tr>
+</table>
+<p><strong>Trap:</strong> de-word things use <em>hij/hem</em>, not <em>het</em>. <em>Waar is de telefoon? → Hij ligt op de bank.</em></p>
+    `,
+    questions: [
+      // --- Position verbs: staan / liggen / hangen / zitten ---
+      { type: "mc", q: "De fles ___ op tafel.", options: ["ligt", "staat", "zit", "hangt"], correct: 1, explain: "A bottle is upright → <em>staan</em>." },
+      { type: "fill", q: "De melk ___ in de koelkast.", answers: ["staat"], explain: "A milk carton is upright → <em>staan</em>." },
+      { type: "fill", q: "De kinderen ___ in bed.", answers: ["liggen"], explain: "In bed = horizontal → <em>liggen</em>." },
+      { type: "fill", q: "Mijn jas ___ aan de kapstok.", answers: ["hangt"], explain: "A jacket on a hook → <em>hangen</em>." },
+      { type: "fill", q: "Het schilderij ___ boven de bank.", answers: ["hangt"], explain: "A painting on a wall → <em>hangen</em>." },
+      { type: "fill", q: "De wijnfles ___ in de koelkast.", answers: ["staat", "ligt"], explain: "Usually <em>staat</em> (upright). <em>ligt</em> is also possible if lying on its side." },
+      { type: "fill", q: "De krant ___ op de keukentafel.", answers: ["ligt"], explain: "A newspaper lies flat → <em>liggen</em>." },
+      { type: "fill", q: "Er ___ een spin aan het plafond.", answers: ["hangt"], explain: "A spider on the ceiling is hanging → <em>hangen</em>." },
+      { type: "fill", q: "Er ___ geld in mijn portemonnee.", answers: ["zit"], explain: "Money inside a wallet → <em>zitten</em>." },
+      { type: "fill", q: "De fiets ___ voor het huis.", answers: ["staat"], explain: "A bike is upright → <em>staan</em>." },
+      { type: "fill", q: "De handdoek ___ over de stoel.", answers: ["hangt", "ligt"], explain: "A towel draped over a chair → usually <em>hangt</em>." },
+      { type: "fill", q: "Oma ___ in bed, ze is ziek.", answers: ["ligt"], explain: "Lying in bed → <em>liggen</em>." },
+      { type: "fill", q: "De vogel ___ in de kooi.", answers: ["zit"], explain: "A bird in a cage → <em>zitten</em> (inside something)." },
+      { type: "fill", q: "De auto ___ in de garage.", answers: ["staat"], explain: "Cars are parked upright (not lying on their side!) → <em>staan</em>." },
+      { type: "fill", q: "De brief ___ op het bureau.", answers: ["ligt"], explain: "A letter lies flat → <em>liggen</em>." },
+      { type: "fill", q: "De klok ___ aan de muur.", answers: ["hangt"], explain: "A clock on a wall → <em>hangen</em>." },
+      { type: "fill", q: "De baby ___ in de wieg.", answers: ["ligt"], explain: "Baby in a crib, lying down → <em>liggen</em>." },
+      { type: "fill", q: "De sleutels ___ in mijn tas.", answers: ["zitten"], explain: "Keys inside a bag → <em>zitten</em>." },
+      { type: "fill", q: "Het boek ___ op het nachtkastje.", answers: ["ligt"], explain: "A book flat on a nightstand → <em>liggen</em>." },
+      { type: "fill", q: "De kat ___ op mijn schoot.", answers: ["zit", "ligt"], explain: "A cat on a lap → usually <em>zit</em>; <em>ligt</em> also works if fully lying." },
+
+      // --- Placement verbs: zetten / leggen / hangen / doen ---
+      { type: "mc", q: "I put the plate on the table.", options: ["Ik zet het bord op tafel.", "Ik leg het bord op tafel.", "Ik doe het bord op tafel.", "Ik hang het bord op tafel."], correct: 1, explain: "A plate lies flat → placement verb for <em>liggen</em> is <em>leggen</em>." },
+      { type: "mc", q: "Ik ___ de sleutels in mijn zak. (placement)", options: ["zet", "leg", "doe", "hang"], correct: 2, explain: "Keys end up <em>inside</em> → <em>doen</em>." },
+      { type: "mc", q: "Which placement verb pairs with 'zitten'?", options: ["zetten", "leggen", "hangen", "doen"], correct: 3, explain: "zitten/doen is the pair for things inside something." },
+      { type: "mc", q: "Which placement verb pairs with 'staan'?", options: ["zetten", "leggen", "hangen", "doen"], correct: 0, explain: "staan/zetten is the pair for things placed upright." },
+      { type: "mc", q: "Which placement verb pairs with 'liggen'?", options: ["zetten", "leggen", "hangen", "doen"], correct: 1, explain: "liggen/leggen is the pair for things placed flat." },
+      { type: "fill", q: "Ik ___ de vuile borden in de vaatwasser. (placement)", answers: ["doe"], explain: "Dishes end up <em>inside</em> the dishwasher → <em>doen</em>." },
+      { type: "fill", q: "___ je jas even op het bed. (informal imperative)", answers: ["Leg"], explain: "A jacket lying flat on a bed → <em>leggen</em>." },
+      { type: "fill", q: "Mama ___ het schilderij boven de bank. (places)", answers: ["hangt"], explain: "Hanging a painting → <em>hangen</em>." },
+      { type: "fill", q: "Hij ___ de boeken op de plank.", answers: ["zet"], explain: "Books on a shelf stand upright → <em>zetten</em>." },
+      { type: "fill", q: "Ik ___ altijd mijn sleutels in de la.", answers: ["doe", "leg"], explain: "Keys inside a drawer → usually <em>doen</em>; <em>leg</em> is also acceptable." },
+      { type: "fill", q: "Kun je de lamp naast het bed ___? (infinitive)", answers: ["zetten"], explain: "A lamp stands upright → <em>zetten</em>." },
+      { type: "fill", q: "Ze ___ de vaas op de kast.", answers: ["zet"], explain: "A vase is upright → <em>zetten</em>." },
+      { type: "fill", q: "Kan je de foto aan de muur ___? (infinitive)", answers: ["hangen"], explain: "A photo on a wall → <em>hangen</em>." },
+      { type: "mc", q: "Ik ___ het geld in mijn portemonnee.", options: ["zet", "leg", "doe", "hang"], correct: 2, explain: "Money inside a wallet → <em>doen</em>." },
+      { type: "mc", q: "The bike is put in the garage.", options: ["De fiets wordt in de garage gezet.", "De fiets wordt in de garage gelegd.", "De fiets wordt in de garage gedaan.", "De fiets wordt in de garage gehangen."], correct: 0, explain: "A bike stands upright → <em>zetten</em>." },
+
+      // --- u vs je/jij (formal vs informal) ---
+      { type: "mc", q: "At the city hall, how would you politely ask for help?", options: ["Kun je me helpen?", "Kunt u me helpen?", "Help me!", "Wil je helpen?"], correct: 1, explain: "Formal contexts call for <em>u</em>." },
+      { type: "mc", q: "\"Zeg maar jij, hoor!\" means:", options: ["I'll call you 'jij' now", "You can use the informal form with me", "Just say yes", "Say 'you' properly"], correct: 1, explain: "It's an invitation to switch from <em>u</em> to <em>je/jij</em>." },
+      { type: "fill", q: "Asking a waiter politely: ___ u me even helpen?", answers: ["Kunt"], explain: "Formal register → <em>Kunt u…</em>" },
+      { type: "mc", q: "To your friend: \"___ me helpen?\"", options: ["Kunt u", "Kun je", "Kan u", "Kunnen jij"], correct: 1, explain: "Friend = informal → <em>Kun je</em>." },
+      { type: "mc", q: "\"Wilt u koffie?\" is:", options: ["formal", "informal", "a mistake", "plural"], correct: 0, explain: "<em>u</em> → formal." },
+      { type: "mc", q: "\"Wil je thee?\" is:", options: ["formal", "informal", "a mistake", "plural"], correct: 1, explain: "<em>je</em> → informal." },
+      { type: "mc", q: "Talking to a bus driver you don't know, use:", options: ["u", "je", "jij", "jullie"], correct: 0, explain: "Strangers → default to <em>u</em>." },
+      { type: "mc", q: "Talking to your young niece, use:", options: ["u", "je/jij", "jullie", "ze"], correct: 1, explain: "Children and family → <em>je/jij</em>." },
+      { type: "fill", q: "To a stranger: ___ bent heel aardig.", answers: ["U"], explain: "Formal → <em>U</em>." },
+      { type: "mc", q: "When unsure whether to use je or u, default to:", options: ["u", "je", "jij", "jullie"], correct: 0, explain: "Being too formal is never rude; being too informal can be." },
+      { type: "mc", q: "Your new coworker says \"Je mag jij zeggen.\" What does it mean?", options: ["You may speak", "You can use the informal form with me", "You should say yes", "You are allowed to go"], correct: 1, explain: "Literally: \"You may say jij\" — permission to use informal." },
+      { type: "mc", q: "Which verb form matches 'u'?", options: ["u heb", "u bent", "u is", "u zijn"], correct: 1, explain: "<em>u</em> takes the hij-form: <em>u bent, u heeft/hebt, u komt</em>." },
+
+      // --- Prepositions (op/aan and others) ---
+      { type: "fill", q: "Het schilderij hangt ___ de muur.", answers: ["aan"], explain: "Attached to a vertical surface → <em>aan</em>." },
+      { type: "fill", q: "De laptop staat ___ het bureau.", answers: ["op"], explain: "On a horizontal surface → <em>op</em>." },
+      { type: "mc", q: "Which is correct?", options: ["De lamp hangt op het plafond.", "De lamp hangt aan het plafond.", "De lamp hangt in het plafond.", "De lamp hangt bij het plafond."], correct: 1, explain: "Attached to ceiling → <em>aan</em>." },
+      { type: "fill", q: "De kat zit ___ de tafel. (under)", answers: ["onder"], explain: "<em>onder</em> = under." },
+      { type: "fill", q: "De klok hangt ___ de deur. (above)", answers: ["boven"], explain: "<em>boven</em> = above." },
+      { type: "fill", q: "De stoel staat ___ de tafel. (next to)", answers: ["naast"], explain: "<em>naast</em> = next to." },
+      { type: "fill", q: "De tuin ligt ___ het huis. (behind)", answers: ["achter"], explain: "<em>achter</em> = behind." },
+      { type: "fill", q: "De auto staat ___ het huis. (in front of)", answers: ["voor"], explain: "<em>voor</em> = in front of." },
+      { type: "fill", q: "Het kind zit ___ zijn ouders. (between)", answers: ["tussen"], explain: "<em>tussen</em> = between." },
+      { type: "mc", q: "Book on a table — which preposition?", options: ["op", "aan", "in", "bij"], correct: 0, explain: "Horizontal surface → <em>op</em>." },
+      { type: "mc", q: "Coat on a hook — which preposition?", options: ["op", "aan", "in", "bij"], correct: 1, explain: "Attached to a hook → <em>aan</em>." },
+      { type: "mc", q: "Photo on a wall — which preposition?", options: ["op", "aan", "in", "bij"], correct: 1, explain: "Attached to a wall → <em>aan</em>." },
+
+      // --- Reference words (pronouns) ---
+      { type: "fill", q: "Waar is de krant? ___ ligt op de tafel.", answers: ["Hij"], explain: "<em>de krant</em> is a de-word, pronoun is <em>hij</em>." },
+      { type: "mc", q: "Which pronoun replaces 'het boek' as an object?", options: ["hem", "het", "hij", "die"], correct: 1, explain: "het-word → object pronoun is <em>het</em>." },
+      { type: "fill", q: "Waar is de stoel? ___ staat daar.", answers: ["Hij"], explain: "<em>de stoel</em> is a de-word → <em>hij</em>." },
+      { type: "fill", q: "Waar is het kind? ___ speelt buiten.", answers: ["Het"], explain: "het-word → <em>het</em>." },
+      { type: "fill", q: "Waar is de pen? ___ ligt op tafel.", answers: ["Hij"], explain: "<em>de pen</em> is a de-word → <em>hij</em>." },
+      { type: "fill", q: "Waar is het boek? ___ ligt op tafel.", answers: ["Het"], explain: "<em>het boek</em> is a het-word → <em>het</em>." },
+      { type: "fill", q: "Waar zijn de sleutels? ___ liggen op tafel.", answers: ["Ze"], explain: "Plurals → <em>ze</em>." },
+      { type: "fill", q: "Ik zie de man. Ik zie ___ niet goed.", answers: ["hem"], explain: "Man as object → <em>hem</em>." },
+      { type: "fill", q: "Ik zie de vrouw. Ik zie ___ niet goed.", answers: ["haar"], explain: "Woman as object → <em>haar</em>." },
+      { type: "fill", q: "Ik zie het boek. Ik zie ___ niet.", answers: ["het"], explain: "het-word object → <em>het</em>." },
+      { type: "fill", q: "Ik zie de boeken. Ik zie ___ niet.", answers: ["ze"], explain: "Plural object → <em>ze</em>." },
+      { type: "fill", q: "Ik zie de telefoon. Ik zie ___ niet.", answers: ["hem"], explain: "<em>de telefoon</em> is a de-word → <em>hem</em>, even for a thing." },
+      { type: "fill", q: "Heb je de krant gelezen? Ja, ik heb ___ gelezen.", answers: ["hem"], explain: "<em>de krant</em> → de-word → <em>hem</em>." },
+      { type: "fill", q: "Waar zijn de kinderen? ___ spelen buiten.", answers: ["Ze"], explain: "Plural people → <em>ze</em>." },
+
+      // --- Integrated / tricky ---
+      { type: "mc", q: "Which sentence is WRONG?", options: ["Het boek ligt op tafel.", "Het boek is op tafel.", "Het boek staat op de plank.", "Het boek zit in de tas."], correct: 1, explain: "Dutch doesn't use <em>zijn</em> for physical position — you need a position verb." },
+      { type: "mc", q: "Put the book on the shelf (books stand upright).", options: ["Leg het boek op de plank.", "Zet het boek op de plank.", "Doe het boek op de plank.", "Hang het boek op de plank."], correct: 1, explain: "Books on a shelf stand upright → <em>zetten</em>." },
+      { type: "mc", q: "The phone is face-down on the couch.", options: ["De telefoon staat op de bank.", "De telefoon ligt op de bank.", "De telefoon zit op de bank.", "De telefoon hangt op de bank."], correct: 1, explain: "Phone lying flat → <em>liggen</em>." }
+    ]
+  },
+
+  // ---------- LESSON 2 ----------
+  {
+    id: 2,
+    title: "Job hunting &amp; the Perfectum",
+    sub: "present perfect tense · hebben vs zijn",
+    explanation: `
+<h3>1. Vocabulary</h3>
+<p><strong>een baan</strong> (job) · <strong>een bijbaan</strong> (side job) · <strong>werkervaring</strong> · <strong>opleiding</strong> · <strong>beschikbaar</strong> (available) · <strong>droombaan</strong> (dream job) · <strong>uitzendbureau</strong> (employment agency) · <strong>sollicitatiegesprek</strong> (job interview).</p>
+
+<h3>2. Perfectum structure</h3>
+<p><strong>hebben / zijn</strong> (position 2) + <strong>participium</strong> (at the end of the clause).</p>
+<blockquote>Ik <strong>heb</strong> mijn huiswerk <strong>gemaakt</strong>.<br>Ik <strong>ben</strong> in Italië <strong>geweest</strong>.</blockquote>
+
+<h3>3. Regular participles: ge- + ik-vorm + -t / -d</h3>
+<p>Look at the <strong>last letter of the ik-vorm</strong>. If it's in <strong>'t eX SoFT KeTCHuP</strong> (t, x, s, f, k, ch, p) → add <strong>-t</strong>. Otherwise → add <strong>-d</strong>.</p>
+<table>
+<tr><th>Verb</th><th>ik-vorm</th><th>Participle</th></tr>
+<tr><td>maken</td><td>maak</td><td>gemaakt</td></tr>
+<tr><td>werken</td><td>werk</td><td>gewerkt</td></tr>
+<tr><td>wonen</td><td>woon</td><td>gewoond</td></tr>
+<tr><td>bellen</td><td>bel</td><td>gebeld</td></tr>
+<tr><td>reizen</td><td>reis</td><td>gereisd</td></tr>
+<tr><td>leven</td><td>leef</td><td>geleefd</td></tr>
+</table>
+
+<h3>4. Common irregular participles</h3>
+<p><strong>zijn</strong> → geweest · <strong>hebben</strong> → gehad · <strong>gaan</strong> → gegaan · <strong>komen</strong> → gekomen · <strong>lezen</strong> → gelezen · <strong>schrijven</strong> → geschreven · <strong>drinken</strong> → gedronken · <strong>nemen</strong> → genomen · <strong>zien</strong> → gezien · <strong>doen</strong> → gedaan · <strong>eten</strong> → gegeten · <strong>krijgen</strong> → gekregen · <strong>brengen</strong> → gebracht · <strong>vallen</strong> → gevallen.</p>
+
+<h3>5. hebben or zijn?</h3>
+<p><strong>hebben</strong> — most verbs, especially those with a direct object.</p>
+<p><strong>zijn</strong> — movement or change of state: <em>gaan, komen, zijn, worden, blijven, vallen</em>.</p>
+<p><strong>Exceptions</strong> using <em>hebben</em>: <em>dansen, staan, zitten, liggen, slapen</em>.</p>
+    `,
+    questions: [
+      { type: "fill", q: "Participle of 'werken'?", answers: ["gewerkt"], explain: "ik-vorm = werk, ends in k → -t." },
+      { type: "fill", q: "Participle of 'wonen'?", answers: ["gewoond"], explain: "ik-vorm = woon, ends in n → -d." },
+      { type: "mc", q: "Ik ___ gisteren een boek gelezen.", options: ["heb", "ben", "had", "was"], correct: 0, explain: "<em>lezen</em> takes a direct object → <em>hebben</em>." },
+      { type: "mc", q: "Hij ___ naar Amsterdam gegaan.", options: ["heeft", "is", "had", "was"], correct: 1, explain: "<em>gaan</em> is movement → <em>zijn</em>." },
+      { type: "fill", q: "Participle of 'praten'?", answers: ["gepraat"], explain: "ik-vorm = praat. Already ends in -t, so no double -tt: <em>gepraat</em>." },
+      { type: "fill", q: "Participle of 'hebben'?", answers: ["gehad"], explain: "Irregular. <em>Ik heb gehad.</em>" },
+      { type: "mc", q: "Which is correct?", options: ["Ik ben op de bank gezeten.", "Ik heb op de bank gezeten.", "Ik was op de bank gezeten.", "Ik heb op de bank zitten."], correct: 1, explain: "<em>zitten</em> is an exception — it uses <em>hebben</em> despite feeling subject-focused." },
+      { type: "mc", q: "Correct word order: \"I bought bread yesterday.\"", options: ["Ik heb gisteren gekocht brood.", "Ik heb gisteren brood gekocht.", "Ik brood heb gisteren gekocht.", "Gisteren heb brood ik gekocht."], correct: 1, explain: "Auxiliary in position 2; participle at the end." }
+    ]
+  },
+
+  // ---------- LESSON 3 ----------
+  {
+    id: 3,
+    title: "Separable verbs &amp; negation",
+    sub: "opstaan · betekenen/bedoelen · geen/niet",
+    explanation: `
+<h3>1. Separable verbs</h3>
+<p>Prefix + base verb: <em>opstaan, afspreken, meenemen, uitnodigen, terugkomen, uitleggen</em>.</p>
+<p><strong>Main clause (present):</strong> base verb → position 2, prefix → end of clause.</p>
+<blockquote>opstaan → Ik <strong>sta</strong> om 7 uur <strong>op</strong>.</blockquote>
+<p><strong>With a modal:</strong> stays together as infinitive at the end.</p>
+<blockquote>Ik wil om 7 uur <strong>opstaan</strong>.</blockquote>
+<p><strong>Perfectum:</strong> <em>ge-</em> goes INSIDE, between prefix and base.</p>
+<blockquote>opstaan → <strong>opgestaan</strong> → Ik ben om 7 uur opgestaan.<br>meenemen → <strong>meegenomen</strong>.</blockquote>
+
+<h3>2. betekenen vs bedoelen</h3>
+<table>
+<tr><th></th><th>betekenen</th><th>bedoelen</th></tr>
+<tr><td>Used for</td><td>definition of a word</td><td>what a person wants to say</td></tr>
+<tr><td>Subject</td><td>a word / thing</td><td>always a person</td></tr>
+<tr><td>Question</td><td>Wat betekent 'aardig'?</td><td>Wat bedoel je?</td></tr>
+</table>
+
+<h3>3. Negation: geen vs niet</h3>
+<p><strong>geen</strong> → before an indefinite noun (one that would take <em>een</em> or nothing):</p>
+<blockquote>Ik heb <strong>geen</strong> tijd. · Wij willen <strong>geen</strong> kinderen. · Dat is <strong>geen</strong> moeilijke oefening.</blockquote>
+<p><strong>niet</strong> → everything else: verbs, adjectives, prepositions, definite nouns.</p>
+<p><strong>Placement of niet:</strong></p>
+<ul>
+<li>As far to the <strong>right</strong> as possible</li>
+<li><strong>Before</strong> a preposition: <em>Ik woon niet in Maastricht.</em></li>
+<li><strong>Before</strong> an adjective: <em>Deze oefening is niet moeilijk.</em></li>
+<li><strong>Before</strong> a second verb / participle: <em>Hij heeft niet gestudeerd.</em></li>
+</ul>
+    `,
+    questions: [
+      { type: "mc", q: "Complete: \"I get up at 7.\"", options: ["Ik opsta om 7 uur.", "Ik sta op om 7 uur.", "Ik sta om 7 uur op.", "Ik opstaan om 7 uur."], correct: 2, explain: "Base verb in position 2, prefix to the end." },
+      { type: "fill", q: "Perfectum of 'opstaan' — I got up at 7. Ik ben om 7 uur ___.", answers: ["opgestaan"], explain: "<em>ge-</em> goes inside: op + ge + staan → <em>opgestaan</em>." },
+      { type: "mc", q: "With modal: \"I want to take my lunch with me.\"", options: ["Ik wil mee mijn lunch nemen.", "Ik wil mijn lunch meenemen.", "Ik wil mijn lunch mee nemen.", "Ik wil meenemen mijn lunch."], correct: 1, explain: "With a modal verb the separable verb stays together at the end as infinitive." },
+      { type: "mc", q: "Wat ___ dit woord? (What does this word mean?)", options: ["bedoelt", "betekent", "bedoel", "betekenen"], correct: 1, explain: "A word as subject → <em>betekenen</em>." },
+      { type: "mc", q: "Wat ___ je daarmee? (What do you mean by that?)", options: ["betekent", "bedoel", "betekenen", "bedoelt"], correct: 1, explain: "A person as subject → <em>bedoelen</em>. With <em>je</em>: <em>bedoel</em>." },
+      { type: "fill", q: "Ik heb ___ tijd vandaag. (no time)", answers: ["geen"], explain: "Indefinite noun (tijd) → <em>geen</em>." },
+      { type: "fill", q: "Ik ken hem ___.", answers: ["niet"], explain: "Negating a verb with a definite object → <em>niet</em>." },
+      { type: "mc", q: "Which is correct?", options: ["Deze oefening is niet moeilijk.", "Deze oefening is moeilijk niet.", "Deze oefening is geen moeilijk.", "Deze oefening niet is moeilijk."], correct: 0, explain: "<em>niet</em> goes before the adjective." }
+    ]
+  },
+
+  // ---------- LESSON 4 ----------
+  {
+    id: 4,
+    title: "Housing, comparisons &amp; er",
+    sub: "comparative/superlative · want vs omdat · als · er+indefinite",
+    explanation: `
+<h3>1. Comparative &amp; superlative</h3>
+<p><strong>Comparative</strong> = adjective + <strong>-(d)er</strong>, often with <em>dan</em>. <strong>Superlative</strong> = <strong>het</strong> + adjective + <strong>-st(e)</strong>.</p>
+<table>
+<tr><th>Base</th><th>Comparative</th><th>Superlative</th></tr>
+<tr><td>klein</td><td>kleiner</td><td>het kleinste</td></tr>
+<tr><td>goed</td><td>beter</td><td>het beste</td></tr>
+<tr><td>veel</td><td>meer</td><td>het meest</td></tr>
+<tr><td>graag</td><td>liever</td><td>het liefst</td></tr>
+</table>
+
+<h3>2. want vs omdat (both = "because")</h3>
+<p><strong>want</strong> → one of the 5 normal conjunctions (en, of, want, maar, dus). Word order stays S-V-R. <em>Cannot</em> start a sentence.</p>
+<blockquote>Ik eet een broodje <strong>want</strong> ik <strong>heb</strong> honger.</blockquote>
+<p><strong>omdat</strong> → verb kicker. Verb goes to the <strong>end</strong>. <em>Can</em> start a sentence.</p>
+<blockquote>Ik eet een broodje <strong>omdat</strong> ik honger <strong>heb</strong>.</blockquote>
+
+<h3>3. omdat vs als</h3>
+<p><strong>omdat</strong> answers <strong>waarom?</strong> (why). <strong>als</strong> answers <strong>wanneer?</strong> in the sense of "in what situation".</p>
+<blockquote>Waarom drink je thee? — Omdat ik dorst heb.<br>Wanneer ben je blij? — Als het mooi weer is.</blockquote>
+
+<h3>4. er + indefinite subject</h3>
+<p>Dutch dislikes indefinite subjects at the start of a sentence. Use <strong>er</strong> as a placeholder; the indefinite subject goes after the verb.</p>
+<blockquote><strong>Er</strong> staat een bank in de hoek.<br><strong>Er</strong> liggen boeken op tafel.<br><strong>Er</strong> hangt een lamp aan het plafond.</blockquote>
+<p><strong>Formula:</strong> Er + positieverbum + indefinite subject + location.</p>
+    `,
+    questions: [
+      { type: "fill", q: "Comparative of 'klein'?", answers: ["kleiner"], explain: "Add -er." },
+      { type: "fill", q: "Superlative of 'goed' (with article)?", answers: ["het beste", "het best"], explain: "Irregular: goed → beter → het beste." },
+      { type: "mc", q: "Ik ga naar huis ___ ik ben moe. (normal word order)", options: ["omdat", "want", "als", "dat"], correct: 1, explain: "Normal word order (S-V-R) after the conjunction → <em>want</em>." },
+      { type: "mc", q: "Ik ga naar huis omdat ___.", options: ["ik ben moe", "ik moe ben", "moe ben ik", "ben ik moe"], correct: 1, explain: "<em>omdat</em> is a verb kicker: subject + rest + verb at the end." },
+      { type: "mc", q: "___ het regent, blijf ik thuis. (In which situation)", options: ["Omdat", "Want", "Als", "Dat"], correct: 2, explain: "\"In what situation\" → <em>als</em>." },
+      { type: "fill", q: "___ staat een bank in de kamer. (There is a couch)", answers: ["Er"], explain: "Indefinite subject → start with <em>er</em>." },
+      { type: "mc", q: "Which is the correct way to say \"There are books on the table\"?", options: ["Boeken liggen op de tafel.", "Er liggen boeken op de tafel.", "Liggen boeken er op de tafel.", "Op de tafel er liggen boeken."], correct: 1, explain: "Indefinite plural → <em>Er liggen boeken…</em>" },
+      { type: "mc", q: "Ik ga naar de winkel want ___.", options: ["ik een broodje wil kopen", "ik wil een broodje kopen", "wil ik een broodje kopen", "een broodje ik wil kopen"], correct: 1, explain: "After <em>want</em>, normal word order: S-V-R, and with a modal the infinitive goes to the end." }
+    ]
+  },
+
+  // ---------- LESSON 5 ----------
+  {
+    id: 5,
+    title: "Neighbor help &amp; indirect speech",
+    sub: "dat · of · indirect questions · laten",
+    explanation: `
+<h3>1. Indirect speech with 'dat'</h3>
+<p><em>dat</em> is a verb kicker → the verb goes to the <strong>end</strong>.</p>
+<table>
+<tr><th>Direct</th><th>Indirect</th></tr>
+<tr><td>"Ik heb honger."</td><td>Hij zegt dat hij honger heeft.</td></tr>
+<tr><td>"Nederland is mooi."</td><td>Hij zegt dat Nederland mooi is.</td></tr>
+</table>
+<p><strong>Pronoun shift</strong>: ik → hij/zij · mij/me → hem/haar · mijn → zijn/haar.</p>
+
+<h3>2. Indirect questions</h3>
+<p><strong>Yes/no questions</strong> → use <strong>of</strong> ("whether"). <strong>Open questions</strong> → use the same question word.</p>
+<blockquote>"Heb je honger?" → Hij vraagt <strong>of</strong> ik honger <strong>heb</strong>.<br>"Wat kost het?" → Ik vraag <strong>wat</strong> het <strong>kost</strong>.</blockquote>
+<p>Both become verb kickers — verb at the end.</p>
+
+<h3>3. laten (having something done)</h3>
+<p>Used when you <em>don't</em> do a task yourself. Structure: <em>laten</em> + object + <strong>infinitive</strong> at the end.</p>
+<table>
+<tr><th>Do yourself</th><th>Have someone do it</th></tr>
+<tr><td>Ik knip mijn haar.</td><td>Ik <strong>laat</strong> mijn haar <strong>knippen</strong>.</td></tr>
+<tr><td>Ik repareer de wasmachine.</td><td>Ik <strong>laat</strong> de wasmachine <strong>repareren</strong>.</td></tr>
+</table>
+<p><strong>In the perfectum</strong>: the participle of <em>laten</em> is replaced by its infinitive:</p>
+<blockquote>Ik heb mijn haar <strong>laten knippen</strong>. (not "gelaten")</blockquote>
+    `,
+    questions: [
+      { type: "mc", q: "\"Ik ben moe.\" Indirect: Hij zegt ___", options: ["dat hij is moe.", "dat hij moe is.", "dat is hij moe.", "hij moe is."], correct: 1, explain: "<em>dat</em> is a verb kicker → verb at the end." },
+      { type: "mc", q: "\"Heb je honger?\" Indirect: Hij vraagt ___", options: ["dat ik honger heb.", "of ik honger heb.", "als ik honger heb.", "of heb ik honger."], correct: 1, explain: "Yes/no question → <em>of</em>; verb at the end." },
+      { type: "fill", q: "\"Waar woon je?\" Indirect: Hij vraagt waar ik ___.", answers: ["woon"], explain: "Question word + verb kicker → <em>woon</em> at the end." },
+      { type: "fill", q: "I get my hair cut: Ik ___ mijn haar knippen.", answers: ["laat"], explain: "laten + object + infinitive." },
+      { type: "mc", q: "Perfectum: \"I had my hair cut.\"", options: ["Ik heb mijn haar gelaten knippen.", "Ik heb mijn haar laten knippen.", "Ik ben mijn haar laten knippen.", "Ik heb mijn haar geknipt laten."], correct: 1, explain: "<em>laten</em> uses the infinitive instead of a participle in the perfectum." },
+      { type: "mc", q: "Which word is NOT a verb kicker?", options: ["dat", "of", "maar", "wat"], correct: 2, explain: "<em>maar</em> uses normal word order; the others all push the verb to the end." },
+      { type: "fill", q: "Ali said \"Ik heb mijn huiswerk gedaan.\" Ali zegt dat hij ___ huiswerk heeft gedaan.", answers: ["zijn"], explain: "Pronoun shift: <em>mijn</em> → <em>zijn</em>." },
+      { type: "mc", q: "\"Wanneer komt de trein?\" Indirect: Ik vraag ___", options: ["wanneer komt de trein.", "wanneer de trein komt.", "of de trein wanneer komt.", "wanneer de trein kwam."], correct: 1, explain: "Question word + verb kicker → verb at the end." }
+    ]
+  },
+
+  // ---------- LESSON 6 ----------
+  {
+    id: 6,
+    title: "Running late &amp; non-separable prefixes",
+    sub: "be-/ge-/ver-/her-/ont-/er- · had &amp; was",
+    explanation: `
+<h3>1. Non-separable prefixes — NO ge- in participles</h3>
+<p>These prefixes stay attached and <strong>block</strong> the <em>ge-</em> of the participle:</p>
+<p style="text-align:center;font-size:1.1rem;margin:12px 0;"><strong>BE- · GE- · VER- · HER- · ONT- · ER-</strong></p>
+<table>
+<tr><th>Infinitive</th><th>Presens</th><th>Perfectum</th></tr>
+<tr><td>bestellen</td><td>ik bestel</td><td>ik heb <strong>besteld</strong></td></tr>
+<tr><td>betalen</td><td>ik betaal</td><td>ik heb <strong>betaald</strong></td></tr>
+<tr><td>gebeuren</td><td>het gebeurt</td><td>het is <strong>gebeurd</strong></td></tr>
+<tr><td>verhuizen</td><td>ik verhuis</td><td>ik ben <strong>verhuisd</strong></td></tr>
+<tr><td>herhalen</td><td>ik herhaal</td><td>ik heb <strong>herhaald</strong></td></tr>
+<tr><td>begrijpen</td><td>ik begrijp</td><td>ik heb <strong>begrepen</strong></td></tr>
+<tr><td>ontbijten</td><td>ik ontbijt</td><td>ik heb <strong>ontbeten</strong></td></tr>
+<tr><td>vergeten</td><td>ik vergeet</td><td>ik ben/heb <strong>vergeten</strong></td></tr>
+</table>
+
+<h3>2. Imperfectum of hebben &amp; zijn</h3>
+<table>
+<tr><th></th><th>hebben</th><th>zijn</th></tr>
+<tr><td>singular</td><td><strong>had</strong></td><td><strong>was</strong></td></tr>
+<tr><td>plural</td><td><strong>hadden</strong></td><td><strong>waren</strong></td></tr>
+</table>
+<blockquote>Ik was te laat omdat de trein vertraging had.<br>Wij waren gisteren in Amsterdam.</blockquote>
+
+<h3>3. Perfectum vs imperfectum — first look</h3>
+<p><strong>Perfectum</strong> = facts (what happened). <strong>Imperfectum</strong> = descriptions (how things were).</p>
+<blockquote>Ik ben gisteren naar het feest geweest. Het was heel gezellig.</blockquote>
+    `,
+    questions: [
+      { type: "fill", q: "Participle of 'bestellen'?", answers: ["besteld"], explain: "Non-separable <em>be-</em> → no <em>ge-</em>." },
+      { type: "fill", q: "Participle of 'verhuizen'?", answers: ["verhuisd"], explain: "Non-separable <em>ver-</em> → no <em>ge-</em>." },
+      { type: "fill", q: "Participle of 'begrijpen'?", answers: ["begrepen"], explain: "Irregular, and no <em>ge-</em> because of non-separable <em>be-</em>." },
+      { type: "fill", q: "Gisteren ___ ik ziek. (zijn, imperfectum)", answers: ["was"], explain: "<em>zijn</em> singular imperfectum = <em>was</em>." },
+      { type: "fill", q: "Wij ___ geen tijd. (hebben, imperfectum plural)", answers: ["hadden"], explain: "<em>hebben</em> plural imperfectum = <em>hadden</em>." },
+      { type: "mc", q: "Hij ___ verhuisd.", options: ["heeft", "is", "had", "was"], correct: 1, explain: "<em>verhuizen</em> = movement / change of state → <em>zijn</em>." },
+      { type: "mc", q: "Which prefix IS separable?", options: ["be-", "ver-", "op-", "ont-"], correct: 2, explain: "<em>op-</em> is separable (opstaan → opgestaan). The others never take <em>ge-</em>." },
+      { type: "mc", q: "Which participle is wrong?", options: ["gebeurd", "besteld", "geverhuisd", "herhaald"], correct: 2, explain: "No <em>ge-</em> allowed: it's just <em>verhuisd</em>." }
+    ]
+  },
+
+  // ---------- LESSON 7 ----------
+  {
+    id: 7,
+    title: "News &amp; the full imperfectum",
+    sub: "regular &amp; irregular imperfectum · er/daar as location",
+    explanation: `
+<h3>1. Regular imperfectum: ik-vorm + -te(n) / -de(n)</h3>
+<p>Same <strong>'t eX SoFT KeTCHuP</strong> rule as the perfectum. Singular = <em>-te/-de</em>, plural = <em>-ten/-den</em>.</p>
+<table>
+<tr><th>Verb</th><th>ik-vorm</th><th>sing.</th><th>plur.</th></tr>
+<tr><td>maken</td><td>maak</td><td>maakte</td><td>maakten</td></tr>
+<tr><td>werken</td><td>werk</td><td>werkte</td><td>werkten</td></tr>
+<tr><td>wonen</td><td>woon</td><td>woonde</td><td>woonden</td></tr>
+<tr><td>bellen</td><td>bel</td><td>belde</td><td>belden</td></tr>
+</table>
+
+<h3>2. Common irregular imperfectum</h3>
+<p><strong>zijn</strong> → was/waren · <strong>hebben</strong> → had/hadden · <strong>gaan</strong> → ging/gingen · <strong>komen</strong> → kwam/kwamen · <strong>doen</strong> → deed/deden · <strong>zien</strong> → zag/zagen · <strong>geven</strong> → gaf/gaven · <strong>nemen</strong> → nam/namen · <strong>eten</strong> → at/aten · <strong>drinken</strong> → dronk/dronken · <strong>lezen</strong> → las/lazen · <strong>schrijven</strong> → schreef/schreven · <strong>vinden</strong> → vond/vonden · <strong>weten</strong> → wist/wisten · <strong>kunnen</strong> → kon/konden · <strong>willen</strong> → wilde/wilden · <strong>moeten</strong> → moest/moesten · <strong>mogen</strong> → mocht/mochten.</p>
+
+<h3>3. When to use which</h3>
+<table>
+<tr><th>Perfectum (facts)</th><th>Imperfectum (description)</th></tr>
+<tr><td>completed events, recent past</td><td>habits, background, storytelling</td></tr>
+<tr><td>signal: al eens, weleens, nog nooit</td><td>signal: vroeger, toen, altijd</td></tr>
+</table>
+
+<h3>4. er / daar as location</h3>
+<p><strong>er</strong> = neutral, goes after the verb. <strong>daar</strong> = emphatic, can start a sentence.</p>
+<blockquote>Ben je in Parijs geweest? Ja, ik ben <strong>er</strong> vorig jaar geweest.<br><strong>Daar</strong> kun je veel doen.</blockquote>
+    `,
+    questions: [
+      { type: "fill", q: "Regular imperfectum of 'werken' (singular)?", answers: ["werkte"], explain: "ik-vorm = werk, ends in k → -te." },
+      { type: "fill", q: "Regular imperfectum of 'wonen' (plural)?", answers: ["woonden"], explain: "ik-vorm = woon, ends in n → -den." },
+      { type: "fill", q: "Irregular imperfectum of 'gaan' (singular)?", answers: ["ging"], explain: "Irregular: gaan → ging → gingen." },
+      { type: "fill", q: "Irregular imperfectum of 'komen' (singular)?", answers: ["kwam"], explain: "komen → kwam → kwamen." },
+      { type: "fill", q: "Irregular imperfectum of 'zien' (singular)?", answers: ["zag"], explain: "zien → zag → zagen." },
+      { type: "mc", q: "Which signal word goes with the imperfectum?", options: ["al eens", "weleens", "vroeger", "nog nooit"], correct: 2, explain: "<em>vroeger</em> (\"in the past\") signals description/habit → imperfectum. The others signal perfectum." },
+      { type: "fill", q: "Ben je in Rome geweest? Ja, ik ben ___ vorig jaar geweest.", answers: ["er"], explain: "<em>er</em> replaces the location when it's already clear from context." },
+      { type: "fill", q: "Irregular imperfectum of 'kunnen' (singular)?", answers: ["kon"], explain: "kunnen → kon → konden." }
+    ]
+  },
+
+  // ---------- LESSON 8 ----------
+  {
+    id: 8,
+    title: "Emergencies &amp; the two functions of toen",
+    sub: "perfectum vs imperfectum · toen (adverb vs conjunction)",
+    explanation: `
+<h3>1. Perfectum vs imperfectum — consolidated</h3>
+<table>
+<tr><th></th><th>Perfectum</th><th>Imperfectum</th></tr>
+<tr><td>Elements</td><td>2 (aux + participle)</td><td>1 (conjugated verb)</td></tr>
+<tr><td>Function</td><td>fact, completed event</td><td>description, habit, background</td></tr>
+<tr><td>Signals</td><td>al eens, weleens, nog nooit</td><td>vroeger, toen, altijd</td></tr>
+</table>
+
+<h3>2. Two functions of toen — the tricky point</h3>
+<p><strong>A) toen as ADVERB</strong> = "then" (past version of <em>dan</em>). Triggers <strong>inversion</strong>: verb in position 2, subject after.</p>
+<blockquote>Eerst zag ik de brand. <strong>Toen belde ik</strong> 112.</blockquote>
+<p><strong>B) toen as CONJUNCTION</strong> = "when" (joins two past clauses about a one-time event). <strong>Verb kicker</strong>: verb goes to the end.</p>
+<blockquote>Ik belde 112 <strong>toen</strong> ik de brand <strong>zag</strong>.</blockquote>
+
+<h3>3. toen vs als vs wanneer</h3>
+<table>
+<tr><th>Word</th><th>Use</th><th>Example</th></tr>
+<tr><td>toen</td><td>past, one-time event</td><td>Toen ik 10 was, woonde ik in Rome.</td></tr>
+<tr><td>als</td><td>habitual / present / future</td><td>Als ik moe ben, ga ik slapen.</td></tr>
+<tr><td>wanneer</td><td>questions</td><td>Wanneer kom je?</td></tr>
+</table>
+
+<h3>4. Warnings</h3>
+<p><strong>Pas op! / Kijk uit!</strong> + <strong>voor</strong> + object.</p>
+<blockquote>Pas op voor die auto! · Kijk uit voor de fietser!</blockquote>
+    `,
+    questions: [
+      { type: "mc", q: "\"Then I called 112.\" — correct word order:", options: ["Toen ik belde 112.", "Toen belde ik 112.", "Toen ik 112 belde.", "Belde ik toen 112."], correct: 1, explain: "<em>toen</em> as adverb (\"then\") triggers inversion: verb in position 2." },
+      { type: "mc", q: "\"I called 112 when I saw the fire.\"", options: ["Ik belde 112 toen ik de brand zag.", "Ik belde 112 toen ik zag de brand.", "Ik 112 belde toen ik de brand zag.", "Ik belde 112 toen zag ik de brand."], correct: 0, explain: "<em>toen</em> as conjunction (\"when\") is a verb kicker — verb goes to the end of the subclause." },
+      { type: "mc", q: "___ ik moe ben, ga ik naar bed. (habitual)", options: ["Toen", "Als", "Wanneer", "Dat"], correct: 1, explain: "Habitual situation → <em>als</em>." },
+      { type: "fill", q: "___ ik jong was, woonde ik in Rome. (past one-time)", answers: ["Toen"], explain: "Past, one-time event → <em>toen</em>." },
+      { type: "fill", q: "Pas op ___ die auto!", answers: ["voor"], explain: "\"Watch out for X\" = <em>Pas op voor X</em>." },
+      { type: "mc", q: "Which pair correctly uses perfectum + imperfectum?", options: ["Ik ben naar Rome geweest. Het was mooi.", "Ik ging naar Rome. Het is mooi geweest.", "Ik ben naar Rome geweest. Het is mooi geweest.", "Ik ging naar Rome. Het was mooi."], correct: 0, explain: "Perfectum = fact (\"I went\"), imperfectum = description (\"it was beautiful\")." },
+      { type: "mc", q: "Which is correct?", options: ["Kijk uit voor de fietser!", "Kijk uit op de fietser!", "Kijk uit aan de fietser!", "Kijk uit met de fietser!"], correct: 0, explain: "<em>Kijk uit voor</em> + object." }
+    ]
+  },
+
+  // ---------- LESSON 9 ----------
+  {
+    id: 9,
+    title: "Appearance &amp; adjective endings",
+    sub: "the -e rule · aan het +inf · positieverbum te +inf · hoewel",
+    explanation: `
+<h3>1. Adjective endings — the -e rule</h3>
+<p><strong>Rule:</strong> add <strong>-e</strong> to adjectives, EXCEPT in one specific case: <strong>indefinite + singular + het-word</strong>.</p>
+<table>
+<tr><th></th><th>singular</th><th>plural</th></tr>
+<tr><td>indefinite (een / ∅)</td><td>de-word: <em>een rode trui</em> ✓<br>het-word: <em>een rood t-shirt</em> ✗</td><td><em>rode truien, rode t-shirts</em> ✓</td></tr>
+<tr><td>definite (de / het / mijn…)</td><td><em>de rode trui, het rode t-shirt</em> ✓</td><td><em>de rode truien, de rode t-shirts</em> ✓</td></tr>
+</table>
+<p><strong>The ONE exception:</strong> <em>een + singular + het-word</em> → no -e: <em>een rood t-shirt, een groot huis, een mooi schilderij</em>.</p>
+<p><strong>Spelling:</strong> dik → dikke · groot → grote · rood → rode · lief → lieve · boos → boze.</p>
+
+<h3>2. Ongoing actions: zijn + aan het + infinitive</h3>
+<p>Equivalent of English "am doing". Objects go BEFORE <em>aan het</em>.</p>
+<blockquote>Wat ben je <strong>aan het doen</strong>? — Ik ben een boek <strong>aan het lezen</strong>.</blockquote>
+
+<h3>3. Ongoing actions: positieverbum + te + infinitive</h3>
+<p>Adds the detail of the subject's physical posture.</p>
+<blockquote>De vrouw <strong>staat te appen</strong>. · Ik <strong>zit</strong> de hele dag <strong>te werken</strong>.</blockquote>
+
+<h3>4. hoewel — "although"</h3>
+<p>Similar meaning to <em>maar</em>, but acts as a <strong>verb kicker</strong>.</p>
+<blockquote>Het was koud, <strong>maar</strong> ik <strong>ging</strong> zwemmen. (normal)<br>Ik ging zwemmen, <strong>hoewel</strong> het koud <strong>was</strong>. (verb at end)</blockquote>
+    `,
+    questions: [
+      { type: "fill", q: "een ___ (rood) t-shirt", answers: ["rood"], explain: "Indefinite + singular + het-word → no -e." },
+      { type: "fill", q: "de ___ (rood) trui", answers: ["rode"], explain: "Definite → +e." },
+      { type: "fill", q: "een ___ (groot) huis", answers: ["groot"], explain: "Indefinite + singular + het-word (<em>het huis</em>) → no -e." },
+      { type: "fill", q: "het ___ (groot) huis", answers: ["grote"], explain: "Definite → +e (with spelling: groot → grote)." },
+      { type: "mc", q: "\"I am reading a book.\"", options: ["Ik lees aan het een boek.", "Ik ben aan het een boek lezen.", "Ik ben een boek aan het lezen.", "Ik ben aan het lezen een boek."], correct: 2, explain: "Object goes BEFORE <em>aan het</em>." },
+      { type: "fill", q: "De man ___ te appen. (staan)", answers: ["staat"], explain: "<em>staat te</em> + infinitive = he's (standing) texting." },
+      { type: "mc", q: "Which word sends the verb to the end?", options: ["maar", "en", "hoewel", "dus"], correct: 2, explain: "<em>hoewel</em> is a verb kicker; the others use normal word order." },
+      { type: "fill", q: "Plural: 'rode truien' — singular indefinite de-word: een ___ trui", answers: ["rode"], explain: "De-word + indefinite → still +e." }
+    ]
+  },
+
+  // ---------- LESSON 10 ----------
+  {
+    id: 10,
+    title: "Office communication &amp; politeness",
+    sub: "zou/zouden · inversion · toen vs dan · abbreviations",
+    explanation: `
+<h3>1. Zou / zouden — polite requests</h3>
+<p>Structure: <strong>Zou/zouden</strong> + subject + rest + <strong>modal verb</strong> + <strong>main infinitive</strong>. Both end verbs are infinitives.</p>
+<table>
+<tr><th>Direct</th><th>Polite</th></tr>
+<tr><td>Mag ik iets vragen?</td><td><strong>Zou</strong> ik iets <strong>mogen vragen</strong>?</td></tr>
+<tr><td>Wil je me helpen?</td><td><strong>Zou</strong> je me <strong>willen helpen</strong>?</td></tr>
+<tr><td>Kun je een document printen?</td><td><strong>Zou</strong> je een document <strong>kunnen printen</strong>?</td></tr>
+</table>
+
+<h3>2. Inversion with time expressions</h3>
+<p>The verb is always in <strong>position 2</strong>. If a time expression comes first, the subject moves behind the verb.</p>
+<table>
+<tr><th>Normal</th><th>Inversion</th></tr>
+<tr><td>Ik ben afgelopen weekend in Den Haag geweest.</td><td>Afgelopen weekend <strong>ben</strong> ik in Den Haag geweest.</td></tr>
+<tr><td>Ik ga overmorgen een cadeau kopen.</td><td>Overmorgen <strong>ga</strong> ik een cadeau kopen.</td></tr>
+</table>
+
+<h3>3. toen vs dan (past vs future "then")</h3>
+<p><strong>toen</strong> = "then" for the past. <strong>dan</strong> = "then" for the future. Both trigger inversion.</p>
+<blockquote>Gisteren was ik ziek. <strong>Toen</strong> ben ik thuisgebleven.<br>Morgen ga ik naar Amsterdam. <strong>Dan</strong> bezoek ik mijn vriend.</blockquote>
+
+<h3>4. Common abbreviations</h3>
+<ul>
+<li><strong>a.u.b.</strong> = alstublieft</li>
+<li><strong>bijv.</strong> = bijvoorbeeld (e.g.)</li>
+<li><strong>enz.</strong> = enzovoort (etc.)</li>
+<li><strong>m.v.g.</strong> = met vriendelijke groet</li>
+<li><strong>i.p.v.</strong> = in plaats van</li>
+<li><strong>t/m</strong> = tot en met</li>
+</ul>
+    `,
+    questions: [
+      { type: "mc", q: "Polite version of \"Kun je me helpen?\"", options: ["Zou je me kunnen helpen?", "Zou jij me helpen kunnen?", "Je zou kunnen me helpen?", "Kun je zou me helpen?"], correct: 0, explain: "zou + subject + rest + modal infinitive + main infinitive." },
+      { type: "mc", q: "Inversion: \"Ik ga morgen naar de stad.\" → starting with 'Morgen':", options: ["Morgen ik ga naar de stad.", "Morgen ga ik naar de stad.", "Morgen naar de stad ga ik.", "Morgen gaan ik naar de stad."], correct: 1, explain: "Verb stays in position 2, subject moves after it." },
+      { type: "fill", q: "___ ga ik een cadeau kopen. (future \"then\")", answers: ["Dan"], explain: "Future → <em>dan</em>." },
+      { type: "fill", q: "___ ben ik thuisgebleven. (past \"then\")", answers: ["Toen"], explain: "Past → <em>toen</em>." },
+      { type: "mc", q: "What does 'a.u.b.' mean?", options: ["alsjeblieft", "alstublieft", "aub", "alsof"], correct: 1, explain: "a.u.b. = alstublieft (formal \"please\")." },
+      { type: "mc", q: "What does 'm.v.g.' mean?", options: ["met vriendelijke groet", "meest voorkomende groet", "met veel geluk", "mijn vriendelijke groet"], correct: 0, explain: "m.v.g. = met vriendelijke groet (\"kind regards\"). Standard email closing." },
+      { type: "mc", q: "The verb is ALWAYS in position...", options: ["1", "2", "3", "at the end"], correct: 1, explain: "In Dutch main clauses, V2 rule: conjugated verb in position 2 (regardless of what's first)." },
+      { type: "mc", q: "Polite version of \"Wil je de deur dichtdoen?\"", options: ["Zou je de deur willen dichtdoen?", "Zou je wilt de deur dichtdoen?", "Zou je de deur dichtdoen willen?", "Wil zou je de deur dichtdoen?"], correct: 0, explain: "Separable verb stays together as infinitive at the end, after the modal infinitive." }
+    ]
+  },
+
+  // ---------- LESSON 11 ----------
+  {
+    id: 11,
+    title: "Health, advice &amp; reflexive verbs",
+    sub: "imperative · advice constructions · zich voelen",
+    explanation: `
+<h3>1. Imperative</h3>
+<p><strong>Informal</strong> = the ik-vorm: <em>Kom! Luister! Blijf binnen!</em></p>
+<p><strong>Formal (u)</strong> = ik-vorm + -t + u: <em>Komt u binnen. Gaat u zitten.</em></p>
+<p><strong>Separable verbs</strong>: prefix to the end. <em>Doe de deur dicht!</em></p>
+<p><strong>Softeners</strong>: <em>maar / even / eens</em>. <em>Blijf maar binnen.</em></p>
+
+<h3>2. Giving advice — 7 ways</h3>
+<table>
+<tr><th>Construction</th><th>Example</th></tr>
+<tr><td>Ik zou + infinitive</td><td>Ik zou binnen blijven.</td></tr>
+<tr><td>Je kunt het beste + infinitive</td><td>Je kunt het beste paracetamol nemen.</td></tr>
+<tr><td>Je moet + infinitive</td><td>Je moet voor de zekerheid binnen blijven.</td></tr>
+<tr><td>Imperatief + maar/eens</td><td>Blijf maar binnen.</td></tr>
+<tr><td>Waarom + presens + je niet?</td><td>Waarom blijf je niet binnen?</td></tr>
+<tr><td>Het is goed om … te + infinitive</td><td>Het is goed om binnen te blijven.</td></tr>
+<tr><td>Het is goed als … (verb kicker!)</td><td>Het is goed als je binnen blijft.</td></tr>
+</table>
+
+<h3>3. Reflexive verbs (zich voelen)</h3>
+<p>The subject does something to/for themselves. Common ones: <em>zich douchen, zich scheren, zich aankleden, zich inschrijven, zich herinneren, zich realiseren, zich voelen, zich verheugen, zich vervelen, zich ergeren</em>.</p>
+<table>
+<tr><th>Singular</th><th>Plural</th></tr>
+<tr><td>ik voel <strong>me</strong></td><td>wij voelen <strong>ons</strong></td></tr>
+<tr><td>jij voelt <strong>je</strong></td><td>jullie voelen <strong>je</strong></td></tr>
+<tr><td>u voelt <strong>u / zich</strong></td><td>zij voelen <strong>zich</strong></td></tr>
+<tr><td>hij/zij voelt <strong>zich</strong></td><td></td></tr>
+</table>
+<p><strong>Trap:</strong> don't drop the reflexive pronoun. <em>Ik voel me niet goed</em> (not <em>Ik voel niet goed</em>).</p>
+<p><strong>Separable reflexive</strong>: pronoun after verb, prefix at end. <em>Ik kleed me snel aan.</em></p>
+    `,
+    questions: [
+      { type: "fill", q: "Ik voel ___ niet goed.", answers: ["me"], explain: "First person singular reflexive = <em>me</em>." },
+      { type: "fill", q: "Hij voelt ___ ziek.", answers: ["zich"], explain: "Third person singular reflexive = <em>zich</em>." },
+      { type: "fill", q: "Wij voelen ___ goed.", answers: ["ons"], explain: "First person plural reflexive = <em>ons</em>." },
+      { type: "mc", q: "Which is the softest way to give advice?", options: ["Je moet paracetamol nemen.", "Ik zou paracetamol nemen.", "Neem paracetamol!", "Waarom neem je geen paracetamol?"], correct: 1, explain: "<em>Ik zou + infinitive</em> is a gentle suggestion (\"I would…\")." },
+      { type: "fill", q: "Formal imperative of 'komen': ___ u binnen.", answers: ["Komt"], explain: "Formal = ik-vorm (kom) + -t + u → <em>Komt u binnen.</em>" },
+      { type: "mc", q: "Separable reflexive: \"I get dressed quickly.\"", options: ["Ik aankleed me snel.", "Ik kleed me snel aan.", "Ik kleed aan me snel.", "Ik me snel aankleed."], correct: 1, explain: "Verb in position 2, reflexive pronoun right after, prefix to the end." },
+      { type: "mc", q: "Het is goed ___ binnen te blijven.", options: ["als", "om", "dat", "te"], correct: 1, explain: "<em>Het is goed om … te + infinitive</em>." },
+      { type: "mc", q: "Which sentence correctly uses a reflexive verb?", options: ["Ik herinner dat.", "Ik herinner me dat.", "Ik me herinner dat.", "Ik herinner dat me."], correct: 1, explain: "<em>zich herinneren</em> needs the reflexive pronoun. <em>Ik herinner me dat</em> = I remember that." }
+    ]
+  }
+];
+
+// ============================================================
+// APP LOGIC
+// ============================================================
+const STORAGE_KEY = 'nl_l2_progress';
+let progress = {};
+try {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) progress = JSON.parse(raw);
+} catch (e) { progress = {}; }
+
+function saveProgress() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }
+  catch (e) {}
+}
+
+function renderHome() {
+  const grid = document.getElementById('lesson-grid');
+  grid.innerHTML = LESSONS.map(lesson => {
+    const p = progress['L' + lesson.id];
+    const total = lesson.questions.length;
+    const seen = (p?.asked?.length) || 0;
+    const cycle = (p?.cycles) || 0;
+    let scoreHtml;
+    if (p) {
+      const perfect = p.best === 10;
+      const seenLabel = cycle > 0
+        ? `Cycle ${cycle + 1} · ${seen}/${total} seen`
+        : `${seen}/${total} seen`;
+      scoreHtml = `<div class="best-score"><span>${seenLabel}</span><span class="val ${perfect?'perfect':''}">Best ${p.best}/10${perfect?' ★':''}</span></div>`;
+    } else {
+      scoreHtml = `<div class="best-score"><span>${total} questions available</span><span class="val">—</span></div>`;
+    }
+    return `
+      <button class="lesson-card" onclick="openLesson(${lesson.id})">
+        <div class="lesson-number">Les ${lesson.id}</div>
+        <div class="lesson-title">${lesson.title}</div>
+        <div class="lesson-sub">${lesson.sub}</div>
+        ${scoreHtml}
+      </button>
+    `;
+  }).join('');
+}
+
+let currentLesson = null;
+let quizState = null;
+
+function openLesson(id) {
+  currentLesson = LESSONS.find(l => l.id === id);
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('lesson-view').classList.add('active');
+  document.getElementById('lv-number').textContent = 'Les ' + id;
+  document.getElementById('lv-title').innerHTML = currentLesson.title;
+  document.getElementById('lv-sub').textContent = currentLesson.sub;
+  document.getElementById('explanation-content').innerHTML = currentLesson.explanation;
+  switchTab('explanation');
+  resetQuiz();
+  window.scrollTo(0, 0);
+}
+
+function showHome() {
+  document.getElementById('home').classList.remove('hidden');
+  document.getElementById('lesson-view').classList.remove('active');
+  renderHome();
+  window.scrollTo(0, 0);
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === name);
+  });
+  document.getElementById('tab-explanation').classList.toggle('active', name === 'explanation');
+  document.getElementById('tab-quiz').classList.toggle('active', name === 'quiz');
+  if (name === 'quiz' && (!quizState || quizState.finished)) {
+    startQuiz();
+  }
+}
+
+document.querySelectorAll('.tab-btn').forEach(b => {
+  b.addEventListener('click', () => switchTab(b.dataset.tab));
+});
+
+// Keyboard shortcuts for quiz
+document.addEventListener('keydown', e => {
+  if (!quizState || quizState.finished) return;
+  const q = quizState.questions[quizState.index];
+  if (!q) return;
+  // Number keys 1-4 to select MC options (only if not answered yet and not in an input)
+  if (q.type === 'mc' && !quizState.answered && document.activeElement?.tagName !== 'INPUT') {
+    const n = parseInt(e.key);
+    if (n >= 1 && n <= q.options.length) {
+      e.preventDefault();
+      handleMcAnswer(n - 1);
+    }
+  }
+});
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const QUIZ_SIZE = 10;
+
+function startQuiz() {
+  const lessonKey = 'L' + currentLesson.id;
+  const allQuestions = currentLesson.questions;
+  const asked = new Set((progress[lessonKey]?.asked) || []);
+
+  // Split into unasked and asked
+  const unasked = allQuestions.filter(q => !asked.has(q.q));
+  const alreadyAsked = allQuestions.filter(q => asked.has(q.q));
+
+  let pool;
+  if (unasked.length >= QUIZ_SIZE) {
+    // Enough unseen questions — pick 10 fresh ones
+    pool = shuffle(unasked).slice(0, QUIZ_SIZE);
+  } else if (unasked.length > 0) {
+    // Some unseen left — include them all, fill rest with already-asked
+    const fillCount = QUIZ_SIZE - unasked.length;
+    const fill = shuffle(alreadyAsked).slice(0, fillCount);
+    pool = shuffle([...unasked, ...fill]);
+  } else {
+    // Completed a full cycle — start fresh
+    pool = shuffle(allQuestions).slice(0, Math.min(QUIZ_SIZE, allQuestions.length));
+  }
+
+  quizState = {
+    questions: pool,
+    index: 0,
+    score: 0,
+    answered: false,
+    finished: false
+  };
+  renderQuestion();
+}
+
+function resetQuiz() {
+  quizState = null;
+}
+
+function renderQuestion() {
+  const q = quizState.questions[quizState.index];
+  const total = quizState.questions.length;
+  const container = document.getElementById('quiz-container');
+  const progressPct = ((quizState.index) / total) * 100;
+
+  let inputHtml = '';
+  if (q.type === 'mc') {
+    inputHtml = `<div class="options" id="options">
+      ${q.options.map((opt, i) => `<button class="option" data-i="${i}">${opt}</button>`).join('')}
+    </div>`;
+  } else {
+    inputHtml = `<input class="fill-input" id="fill-input" type="text" placeholder="Type your answer…" autocomplete="off" spellcheck="false">`;
+  }
+
+  container.innerHTML = `
+    <div class="quiz-progress">
+      <span>Question ${quizState.index + 1} of ${total}</span>
+      <span>Score: ${quizState.score}</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width: ${progressPct}%"></div></div>
+    <div class="question-num">Question ${quizState.index + 1}</div>
+    <div class="question-text">${q.q.replace(/___/g, '<span class="blank"></span>')}</div>
+    ${inputHtml}
+    <div class="feedback" id="feedback"></div>
+    <div class="actions" id="actions">
+      ${q.type === 'fill' ? '<button class="btn" id="check-btn">Check</button>' : ''}
+    </div>
+  `;
+
+  if (q.type === 'mc') {
+    const optEls = document.querySelectorAll('#options .option');
+    optEls.forEach(opt => {
+      opt.addEventListener('click', () => handleMcAnswer(parseInt(opt.dataset.i)));
+    });
+    // Auto-focus first option so arrow keys / Tab can navigate
+    if (optEls[0]) optEls[0].focus();
+  } else {
+    const input = document.getElementById('fill-input');
+    input.focus();
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleFillAnswer();
+    });
+    document.getElementById('check-btn').addEventListener('click', handleFillAnswer);
+  }
+}
+
+function handleMcAnswer(idx) {
+  if (quizState.answered) return;
+  quizState.answered = true;
+  const q = quizState.questions[quizState.index];
+  const correct = idx === q.correct;
+  if (correct) quizState.score++;
+
+  document.querySelectorAll('#options .option').forEach((opt, i) => {
+    opt.disabled = true;
+    if (i === q.correct) opt.classList.add('correct');
+    else if (i === idx) opt.classList.add('wrong');
+  });
+
+  showFeedback(correct, q);
+  showNextBtn();
+}
+
+function handleFillAnswer() {
+  if (quizState.answered) return;
+  const input = document.getElementById('fill-input');
+  const val = input.value.trim().toLowerCase();
+  if (!val) return;
+  quizState.answered = true;
+  const q = quizState.questions[quizState.index];
+  const answers = q.answers.map(a => a.toLowerCase());
+  const correct = answers.includes(val);
+  if (correct) quizState.score++;
+  input.disabled = true;
+  input.classList.add(correct ? 'correct' : 'wrong');
+  document.getElementById('check-btn')?.remove();
+  showFeedback(correct, q);
+  showNextBtn();
+}
+
+function showFeedback(correct, q) {
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback show ' + (correct ? 'correct' : 'wrong');
+  const correctAnswer = q.type === 'mc'
+    ? q.options[q.correct]
+    : q.answers[0];
+  fb.innerHTML = `
+    <strong>${correct ? 'Correct!' : 'Not quite'}</strong>
+    ${q.explain}
+    ${!correct ? `<div class="correct-answer">Correct answer: <strong>${correctAnswer}</strong></div>` : ''}
+  `;
+}
+
+function showNextBtn() {
+  const actions = document.getElementById('actions');
+  const isLast = quizState.index === quizState.questions.length - 1;
+  actions.innerHTML = `<button class="btn" id="next-btn">${isLast ? 'See results' : 'Next question'} →</button>`;
+  const btn = document.getElementById('next-btn');
+  btn.addEventListener('click', nextQuestion);
+  // Defer focus so the current Enter/Space keyup doesn't synthetically click the new button
+  setTimeout(() => btn.focus(), 0);
+}
+
+function nextQuestion() {
+  if (quizState.index === quizState.questions.length - 1) {
+    finishQuiz();
+  } else {
+    quizState.index++;
+    quizState.answered = false;
+    renderQuestion();
+  }
+}
+
+function finishQuiz() {
+  quizState.finished = true;
+  const total = quizState.questions.length;
+  const score = quizState.score;
+  const key = 'L' + currentLesson.id;
+  const prev = progress[key] || { best: 0, attempts: 0, asked: [], cycles: 0 };
+  const prevAsked = new Set(prev.asked || []);
+  // Add the questions we just asked
+  quizState.questions.forEach(q => prevAsked.add(q.q));
+
+  const totalInLesson = currentLesson.questions.length;
+  let newAsked = Array.from(prevAsked);
+  let newCycles = prev.cycles || 0;
+  let cycleJustCompleted = false;
+  // If we've now seen all of them, reset for the next cycle
+  if (newAsked.length >= totalInLesson) {
+    newAsked = [];
+    newCycles += 1;
+    cycleJustCompleted = true;
+  }
+
+  progress[key] = {
+    best: Math.max(prev.best || 0, score),
+    attempts: (prev.attempts || 0) + 1,
+    asked: newAsked,
+    cycles: newCycles
+  };
+  saveProgress();
+
+  const pct = score / total;
+  const circumference = 2 * Math.PI * 70;
+  const offset = circumference * (1 - pct);
+
+  let message, title;
+  if (pct === 1) {
+    title = "Perfect score!";
+    message = "You've mastered this batch. Ready for the next 10?";
+  } else if (pct >= 0.8) {
+    title = "Strong work.";
+    message = "Almost perfect — review the missed questions and you'll have this nailed.";
+  } else if (pct >= 0.6) {
+    title = "Getting there.";
+    message = "Solid effort. Retake the explanation and try again to cement the tricky points.";
+  } else {
+    title = "Keep practicing.";
+    message = "Go back to the explanation, focus on the concepts you missed, and retake the quiz.";
+  }
+  if (cycleJustCompleted) {
+    message += ` 🎉 You've completed a full cycle through all ${totalInLesson} questions! Next quiz starts a new cycle.`;
+  } else {
+    const seenCount = newAsked.length;
+    message += ` Progress: ${seenCount}/${totalInLesson} questions seen in this cycle.`;
+  }
+
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = `
+    <div class="results">
+      <div class="score-ring">
+        <svg viewBox="0 0 160 160">
+          <circle class="ring-bg" cx="80" cy="80" r="70"/>
+          <circle class="ring-fill" cx="80" cy="80" r="70"
+            stroke-dasharray="${circumference}"
+            stroke-dashoffset="${circumference}"
+            id="ring-fill"/>
+        </svg>
+        <div class="score-text">
+          <div class="score-num">${score}/${total}</div>
+          <div class="score-total">${Math.round(pct * 100)}%</div>
+        </div>
+      </div>
+      <h3>${title}</h3>
+      <p>${message}</p>
+      <div class="actions">
+        <button class="btn-secondary btn" onclick="switchTab('explanation')">Review explanation</button>
+        <button class="btn" onclick="startQuiz()">Retake quiz</button>
+      </div>
+    </div>
+  `;
+  setTimeout(() => {
+    document.getElementById('ring-fill').style.strokeDashoffset = offset;
+  }, 100);
+}
+
+// Reset all progress
+document.getElementById('reset-btn').addEventListener('click', () => {
+  const confirmed = confirm('Reset all progress? This will clear your best scores, attempts, and seen questions for every lesson. This cannot be undone.');
+  if (!confirmed) return;
+  progress = {};
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  renderHome();
+});
+
+// Init
+renderHome();
+</script>
+</body>
+</html>
